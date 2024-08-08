@@ -11,4 +11,5 @@ interface BaseTodoRepository {
     public function create(array $payload) : Todo;
     public function updateData(array $payload, string $id) : ?Todo;
     public function batchDelete(array $ids) : bool;
+
 }

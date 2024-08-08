@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Test;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TodoController;
 

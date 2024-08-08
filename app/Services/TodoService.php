@@ -6,31 +6,57 @@ use App\Models\Todo;
 use App\Repositories\TodoRepository\TodoRepository;
 use Illuminate\Support\Collection;
 
-class TodoService {
+class TodoService
+{
 
     protected $repo;
 
-    public function __construct(TodoRepository $repo) {
+    /**
+     * Constructor for class TodoService and initializes the TodoRepository and it's methods.
+     */
+    public function __construct(TodoRepository $repo)
+    {
         $this->repo = $repo;
     }
 
-    public function getAll() : Collection {
+    /**
+     * [getAll] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
+     */
+    public function getAll() : Collection
+    {
         return $this->repo->getAll();
     }
 
-    public function findById(string $id) : Todo {
+    /**
+     * [findById] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
+     */
+    public function findById(string $id) : Todo
+    {
         return $this->repo->findById($id);
     }
 
-    public function create(array $payload) : Todo {
+    /**
+     * [create] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
+     */
+    public function create(array $payload) : Todo
+    {
         return $this->repo->create($payload);
     }
 
-    public function updateData(array $payload, string $id) : ?Todo {
+    /**
+     * [updateData] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
+     */
+    public function updateData(array $payload, string $id) : ?Todo
+    {
         return $this->repo->updateData($payload, $id);
     }
 
-    public function batchDelete(array $ids) : bool {
+    /**
+     * [batchDelete] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
+     */
+    public function batchDelete(array $ids) : bool
+    {
         return $this->repo->batchDelete($ids);
     }
+
 }

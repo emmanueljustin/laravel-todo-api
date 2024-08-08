@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\TodoService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Http\Requests\TodoRequest;
@@ -12,11 +13,18 @@ class TodoController extends Controller
 
     protected $todoService;
 
-    public function __construct(TodoService $todoService) {
+    /**
+     * Constructor for initializing TodoService and it's methods. 
+     */
+    public function __construct(TodoService $todoService)
+    {
         $this->todoService = $todoService;
     }
 
-    public function index()
+    /**
+     * Fetch all existing todo data in database.
+     */
+    public function index() : JsonResponse
     {
         $data = $this->todoService->getAll();
 
@@ -34,7 +42,10 @@ class TodoController extends Controller
         ]);
     }
 
-    public function store(TodoRequest $payload)
+    /**
+     * Create table and store data based from request sent or save request from existing database table.
+     */
+    public function store(TodoRequest $payload) : JsonResponse
     {
         $result = $this->todoService->create($payload->all());
 
@@ -45,7 +56,10 @@ class TodoController extends Controller
         ]);
     }
 
-    public function update(TodoRequest $payload, string $id)
+    /**
+     * Update existing todo in your database based on id given.
+     */
+    public function update(TodoRequest $payload, string $id) : JsonResponse
     {
         $post = $this->todoService->updateData($payload->all(), $id);
 
@@ -102,7 +116,11 @@ class TodoController extends Controller
     //     ]);
     // }
 
-    function deleteTodos(Request $payload) {
+    /** 
+     * Delete todo item/items.
+    */
+    function deleteTodos(Request $payload) : JsonResponse
+    {
 
         $ids = $payload->ids;
 
