@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TodoService;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Http\Requests\TodoRequest;
 
 class TodoController extends Controller
 {
+
+    protected $todoService;
+
+    public function __construct(TodoService $todoService) {
+        $this->todoService = $todoService;
+    }
+
     public function index()
     {
-        $data = Todo::all();
+        $data = $this->todoService->getAll();
 
         if ($data->isEmpty()) {
             return response()->json([
@@ -28,7 +36,7 @@ class TodoController extends Controller
 
     public function store(TodoRequest $payload)
     {
-        $result = Todo::create($payload->all());
+        $result = $this->todoService->create($payload->all());
 
         return response()->json([
             "status" => "ok",
@@ -39,7 +47,7 @@ class TodoController extends Controller
 
     public function update(TodoRequest $payload, string $id)
     {
-        $post = Todo::find($id);
+        $post = $this->todoService->updateData($payload->all(), $id);
 
         if (!$post) {
             return response()->json([
@@ -47,8 +55,6 @@ class TodoController extends Controller
                 "message" => "The file that you are modifying does not exist."
             ]);
         }
-
-        $post->update($payload->all());
 
         return response()->json([
             "status" => "ok",
@@ -98,9 +104,16 @@ class TodoController extends Controller
 
     function deleteTodos(Request $payload) {
 
-        $ids = $payload->input("ids");
+        $ids = $payload->ids;
 
-        Todo::whereIn("id", $ids)->delete();
+        $result = $this->todoService->batchDelete($ids);
+
+        if (!$result) {
+            return response()->json([
+                "status" => "err",
+                "message" => "The file that you want to delete does not exist."
+            ]);
+        }
 
         return response()->json([
             "status" => "ok",
