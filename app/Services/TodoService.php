@@ -58,5 +58,4 @@ class TodoService
     {
         return $this->repo->batchDelete($ids);
     }
-
 }
