@@ -23,8 +23,8 @@ class TodoRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            "title" => "string",
-            "content" => "string",
+            "title" => "nullable|string",
+            "content" => "nullable|string",
             "priority_level" => "required|numeric",
             "is_finished" => "required|boolean",
         ];

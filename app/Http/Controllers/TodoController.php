@@ -31,7 +31,8 @@ class TodoController extends Controller
         if ($data->isEmpty()) {
             return response()->json([
                 "status" => "ok",
-                "message" => "There is no existing TODO data."
+                "message" => "There is no existing TODO data.",
+                "data" => []
             ]);
         }
 
