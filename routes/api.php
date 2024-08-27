@@ -26,14 +26,12 @@ Route::get("/notes", [NoteController::class, 'view']);
 // // ? Update existing Todo content and values
 // Route::post("/todo/update_data", [TodoController::class, "updateTodos"]);
 
-// ? API route for basic CRUD operations
-
-// ? Delete existing Todos
-
-
 // For Authentication
 Route::post("/auth/register", [AuthenticationController::class, "register"]);
 Route::post("/auth/login", [AuthenticationController::class, "login"]);
+/**
+ * ? Encloses the TODO API routes inside auth routes so that it won't be accessible if there is no active session token
+ */ 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post("/auth/logout", [AuthenticationController::class, "logout"]);
     Route::apiResource('/todos', TodoController::class);

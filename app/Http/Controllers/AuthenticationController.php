@@ -37,8 +37,9 @@ class AuthenticationController extends Controller
 
         return response()->json([
             "status" => "ok",
-            "message" => "This is all of the todos.",
-            "token" => $token
+            "message" => "Account has been succcesfully created.",
+            "user_token" => $token->plainTextToken,
+            "user_data" => $user
         ]);        
     }
 
