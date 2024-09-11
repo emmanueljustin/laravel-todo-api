@@ -44,6 +44,28 @@ class TodoController extends Controller
     }
 
     /**
+     * Gets all the user specific todo data
+     */
+    public function getAllSpecific(string $ownerId) : JsonResponse
+    {
+        $data = $this->todoService->getAllSpecific($ownerId);
+
+        if ($data->isEmpty()) {
+            return response()->json([
+                "status" => "ok",
+                "message" => "There is no existing TODO data.",
+                "data" => []
+            ]);
+        }
+
+        return response()->json([
+            "status" => "ok",
+            "message" => "This is all of the todos.",
+            "data" => $data
+        ]);
+    }
+
+    /**
      * Create table and store data based from request sent or save request from existing database table.
      */
     public function store(TodoRequest $payload) : JsonResponse

@@ -28,6 +28,14 @@ class TodoService
     }
 
     /**
+     * [getAllSpecific] method used to access TodoRepository
+     */
+    public function getAllSpecific(string $ownerId) : Collection
+    {
+        return $this->repo->getAllSpecific($ownerId);
+    }
+
+    /**
      * [findById] method for TodoService can be reused in different controllers if needed to avoid multiple and repetitive method implementation
      */
     public function findById(string $id) : Todo

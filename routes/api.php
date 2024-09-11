@@ -34,6 +34,7 @@ Route::post("/auth/login", [AuthenticationController::class, "login"]);
  */ 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post("/auth/logout", [AuthenticationController::class, "logout"]);
+    Route::get('/todos/specific-all/{ownerId}', [TodoController::class, "getAllSpecific"]);
     Route::apiResource('/todos', TodoController::class);
     Route::post("/todos/delete_data", [TodoController::class, "deleteTodos"]);
 });

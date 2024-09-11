@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 interface BaseTodoRepository
 {
     public function getAll() : Collection;
+    public function getAllSpecific(string $ownerId) : Collection;
     public function findById(string $id) : Todo;
     public function create(array $payload) : Todo;
     public function updateData(array $payload, string $id) : ?Todo;

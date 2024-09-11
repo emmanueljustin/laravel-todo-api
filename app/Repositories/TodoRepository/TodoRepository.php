@@ -19,6 +19,14 @@ class TodoRepository implements BaseTodoRepository
     }
 
     /**
+     * [getAllSpecific] method for getting a user specific data only
+     */
+    public function getAllSpecific(string $ownerId): Collection
+    {
+        return Todo::where('owner_id', $ownerId)->get();
+    }
+
+    /**
      * [findById] method for repository based from the interface class of BaseTodoRepository
      * Can be reused to access the method of finding id in database.
      */
