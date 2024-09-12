@@ -7,6 +7,7 @@ use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Auth;
+use App\Http\Requests\RegisterRequest;
 
 class AuthenticationController extends Controller
 {
@@ -27,8 +28,8 @@ class AuthenticationController extends Controller
     {
         $fields = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|email|unique:users",
-            "password" => "required"
+            "email" => "required|email|unique:authentication,email",
+            "password" => "required|string"
         ]);
 
         $user = $this->authService->register($fields);
