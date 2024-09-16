@@ -46,9 +46,15 @@ class TodoController extends Controller
     /**
      * Gets all the user specific todo data
      */
-    public function getAllSpecific(string $ownerId) : JsonResponse
+    public function getAllSpecific(Request $request) : JsonResponse
     {
-        $data = $this->todoService->getAllSpecific($ownerId);
+        $fields = $request->validate([
+            "ownerId" => "required|numeric",
+            "pageView" => "required|numeric",
+            "itemsPerPage" => "required|numeric"
+        ]);
+
+        $data = $this->todoService->getAllSpecific($fields);
 
         if ($data->isEmpty()) {
             return response()->json([

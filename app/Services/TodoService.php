@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\Todo;
 use App\Repositories\TodoRepository\TodoRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Resources\CustomTodoPaginationResource;
 
 class TodoService
 {
@@ -30,9 +32,9 @@ class TodoService
     /**
      * [getAllSpecific] method used to access TodoRepository
      */
-    public function getAllSpecific(string $ownerId) : Collection
+    public function getAllSpecific(array $payload) : CustomTodoPaginationResource
     {
-        return $this->repo->getAllSpecific($ownerId);
+        return $this->repo->getAllSpecific($payload);
     }
 
     /**

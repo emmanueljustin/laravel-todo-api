@@ -5,6 +5,8 @@ namespace App\Repositories\TodoRepository;
 use App\Repositories\TodoRepository\BaseTodoRepository;
 use Illuminate\Support\Collection;
 use App\Models\Todo;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Http\Resources\CustomTodoPaginationResource;
 
 class TodoRepository implements BaseTodoRepository 
 {
@@ -21,9 +23,11 @@ class TodoRepository implements BaseTodoRepository
     /**
      * [getAllSpecific] method for getting a user specific data only
      */
-    public function getAllSpecific(string $ownerId): Collection
+    public function getAllSpecific(array $payload): CustomTodoPaginationResource
     {
-        return Todo::where('owner_id', $ownerId)->get();
+        $lists =  Todo::where('owner_id', $payload["ownerId"])->paginate(perPage: $payload["itemsPerPage"], page: $payload["pageView"]);
+
+        return new CustomTodoPaginationResource($lists);
     }
 
     /**
