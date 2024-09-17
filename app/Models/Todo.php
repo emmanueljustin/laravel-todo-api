@@ -20,4 +20,9 @@ class Todo extends Model
     public function getIsFinishedAttribute($value) {
         return (bool) $value;
     }
+
+    public function Auth()
+    {
+        return $this->belongsTo(Auth::class);
+    }
 }

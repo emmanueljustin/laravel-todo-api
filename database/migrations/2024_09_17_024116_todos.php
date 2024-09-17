@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('todos', function (Blueprint $table) {
-            $table->id();
-            $table->integer("owner_id");
+            $table->id()->primary();
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign("owner_id")->constrained()->references('id')->on('authentication')->onDelete('cascade');
             $table->timestamps();
             $table->string("title")->nullable();
             $table->string("content")->nullable();
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todo');
+        Schema::dropIfExists('todos');
     }
 };
