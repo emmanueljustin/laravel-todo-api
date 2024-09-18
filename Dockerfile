@@ -32,14 +32,15 @@ WORKDIR /var/www/html
 COPY . .
 
 # RUN ln -s public html
-# Set proper permissions for Laravel files
-RUN chown -R www-data:www-data /var/www/html
-RUN chmod -R 775 /var/www/html
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
+
+# Set proper permissions for Laravel files
+RUN chown -R www-data:www-data /var/www/html
+RUN chmod -R 775 /var/www/html
 
 RUN php artisan config:cache
 
