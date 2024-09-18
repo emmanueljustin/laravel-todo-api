@@ -44,9 +44,9 @@ RUN chmod -R 775 /var/www/html
 
 RUN php artisan config:cache
 
-RUN artisan route:cache
+RUN php artisan route:cache
 
-RUN artisan migrate --force
+RUN php artisan migrate --force
 
 # Install Laravel dependencies
 # RUN composer install
