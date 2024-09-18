@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN a2enmod rewrite
 
-RUN service apache2 restart
+# RUN service apache2 restart
 
 # Set working directory
 WORKDIR /var/www/html
