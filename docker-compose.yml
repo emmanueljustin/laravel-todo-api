@@ -16,15 +16,17 @@ services:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
     networks:
       - app-network
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:5.7
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: laravel_db
-      MYSQL_PASSWORD: "root"
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306" 
     networks:
@@ -38,7 +40,7 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_USER: root
-      PMA_PASSWORD:
+      PMA_PASSWORD: root
       PMA_PORT: 3306
     networks:
       - app-network
