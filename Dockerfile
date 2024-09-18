@@ -42,7 +42,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
 # Install Laravel dependencies
-RUN composer install
+# RUN composer install
 
 # Expose port 9000
 EXPOSE 80
