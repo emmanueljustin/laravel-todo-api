@@ -39,7 +39,9 @@ RUN chmod -R 775 /var/www/html
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-dev --optimize-autoloader && php artisan migrate --force
+RUN composer install --no-dev --optimize-autoloader
+
+RUN php artisan migrate --force
 
 # Install Laravel dependencies
 RUN composer install
