@@ -46,7 +46,7 @@ RUN php artisan config:cache
 
 RUN php artisan route:cache
 
-RUN php artisan migrate --force
+# RUN php artisan migrate --force
 
 # Install Laravel dependencies
 # RUN composer install
