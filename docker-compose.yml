@@ -16,6 +16,9 @@ services:
       - mysql
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
+      DB_HOST: mysql
+      DB_DATABASE: laravel_db
+      DB_PASSWORD: root
     networks:
       - app-network
 
