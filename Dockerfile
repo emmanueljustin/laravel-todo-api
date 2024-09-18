@@ -41,10 +41,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN php artisan migrate:rollback --force
-
-RUN php artisan migrate --force
-
 # Install Laravel dependencies
 RUN composer install
 
