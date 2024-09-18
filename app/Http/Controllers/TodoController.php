@@ -2,20 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\TodoService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Todo;
 use App\Http\Requests\TodoRequest;
 
 class TodoController extends Controller
 {
-    public function index()
+
+    protected $todoService;
+
+    /**
+     * Constructor for initializing TodoService and it's methods. 
+     */
+    public function __construct(TodoService $todoService)
     {
-        $data = Todo::all();
+        $this->todoService = $todoService;
+    }
+
+    /**
+     * Fetch all existing todo data in database.
+     */
+    public function index() : JsonResponse
+    {
+        $data = $this->todoService->getAll();
 
         if ($data->isEmpty()) {
             return response()->json([
                 "status" => "ok",
-                "message" => "There is no existing TODO data."
+                "message" => "There is no existing TODO data.",
+                "data" => []
             ]);
         }
 
@@ -26,9 +43,40 @@ class TodoController extends Controller
         ]);
     }
 
-    public function store(TodoRequest $payload)
+    /**
+     * Gets all the user specific todo data
+     */
+    public function getAllSpecific(Request $request) : JsonResponse
     {
-        $result = Todo::create($payload->all());
+        $fields = $request->validate([
+            "ownerId" => "required|numeric",
+            "pageView" => "required|numeric",
+            "itemsPerPage" => "required|numeric"
+        ]);
+
+        $data = $this->todoService->getAllSpecific($fields);
+
+        if ($data->isEmpty()) {
+            return response()->json([
+                "status" => "ok",
+                "message" => "There is no existing TODO data.",
+                "data" => []
+            ]);
+        }
+
+        return response()->json([
+            "status" => "ok",
+            "message" => "This is all of the todos.",
+            "data" => $data
+        ]);
+    }
+
+    /**
+     * Create table and store data based from request sent or save request from existing database table.
+     */
+    public function store(TodoRequest $payload) : JsonResponse
+    {
+        $result = $this->todoService->create($payload->all());
 
         return response()->json([
             "status" => "ok",
@@ -37,9 +85,12 @@ class TodoController extends Controller
         ]);
     }
 
-    public function update(TodoRequest $payload, string $id)
+    /**
+     * Update existing todo in your database based on id given.
+     */
+    public function update(TodoRequest $payload, string $id) : JsonResponse
     {
-        $post = Todo::find($id);
+        $post = $this->todoService->updateData($payload->all(), $id);
 
         if (!$post) {
             return response()->json([
@@ -47,8 +98,6 @@ class TodoController extends Controller
                 "message" => "The file that you are modifying does not exist."
             ]);
         }
-
-        $post->update($payload->all());
 
         return response()->json([
             "status" => "ok",
@@ -96,11 +145,22 @@ class TodoController extends Controller
     //     ]);
     // }
 
-    function deleteTodos(Request $payload) {
+    /** 
+     * Delete todo item/items.
+    */
+    function deleteTodos(Request $payload) : JsonResponse
+    {
 
-        $ids = $payload->input("ids");
+        $ids = $payload->ids;
 
-        Todo::whereIn("id", $ids)->delete();
+        $result = $this->todoService->batchDelete($ids);
+
+        if (!$result) {
+            return response()->json([
+                "status" => "err",
+                "message" => "The file that you want to delete does not exist."
+            ]);
+        }
 
         return response()->json([
             "status" => "ok",

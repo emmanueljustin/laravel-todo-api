@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Test;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\AuthenticationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -26,7 +26,15 @@ Route::get("/notes", [NoteController::class, 'view']);
 // // ? Update existing Todo content and values
 // Route::post("/todo/update_data", [TodoController::class, "updateTodos"]);
 
-// ? API route for basic CRUD operations
-Route::apiResource('/todos', TodoController::class);
-// ? Delete existing Todos
-Route::post("/todos/delete_data", [TodoController::class, "deleteTodos"]);
+// For Authentication
+Route::post("/auth/register", [AuthenticationController::class, "register"]);
+Route::post("/auth/login", [AuthenticationController::class, "login"]);
+/**
+ * ? Encloses the TODO API routes inside auth routes so that it won't be accessible if there is no active session token
+ */ 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post("/auth/logout", [AuthenticationController::class, "logout"]);
+    Route::post('/todos/specific-all', [TodoController::class, "getAllSpecific"]);
+    Route::apiResource('/todos', TodoController::class);
+    Route::post("/todos/delete_data", [TodoController::class, "deleteTodos"]);
+});

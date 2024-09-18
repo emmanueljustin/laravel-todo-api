@@ -10,6 +10,7 @@ class Todo extends Model
     use HasFactory;
 
     protected $fillable = [
+        'owner_id',
         'title',
         'content',
         'priority_level',
@@ -18,5 +19,10 @@ class Todo extends Model
 
     public function getIsFinishedAttribute($value) {
         return (bool) $value;
+    }
+
+    public function Auth()
+    {
+        return $this->belongsTo(Auth::class);
     }
 }
