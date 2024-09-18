@@ -21,7 +21,7 @@ services:
     image: mysql:5.7
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: "root"
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: laravel_db
       MYSQL_PASSWORD: "root"
@@ -38,7 +38,7 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_USER: root
-      PMA_PASSWORD:
+      PMA_PASSWORD: root
       PMA_PORT: 3306
     networks:
       - app-network
